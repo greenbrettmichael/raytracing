@@ -4,6 +4,8 @@ from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 
 _src_path = os.path.dirname(os.path.abspath(__file__))
 
+CONDA_PREFIX = os.environ.get('CONDA_PREFIX', None)
+
 # ref: https://github.com/sxyu/sdf/blob/master/setup.py
 def find_eigen(min_ver=(3, 3, 0)):
     """Helper to find or download the Eigen C++ library"""
@@ -14,6 +16,7 @@ def find_eigen(min_ver=(3, 3, 0)):
         os.path.expanduser('~/.local/include/eigen3'),
         'C:/Program Files/eigen3',
         'C:/Program Files (x86)/eigen3',
+        os.path.join(CONDA_PREFIX, 'Library/include/eigen3'),
     ]
     WORLD_VER_STR = "#define EIGEN_WORLD_VERSION"
     MAJOR_VER_STR = "#define EIGEN_MAJOR_VERSION"
@@ -36,7 +39,7 @@ def find_eigen(min_ver=(3, 3, 0)):
                     major_ver = int(line[len(MAJOR_VER_STR):])
                 elif line.startswith(MINOR_VER_STR):
                     minor_ver = int(line[len(MAJOR_VER_STR):])
-            if not world_ver or not major_ver or not minor_ver:
+            if world_ver is None or major_ver is None or minor_ver is None:
                 print('Failed to parse macros file', macros_path)
             else:
                 ver = (world_ver, major_ver, minor_ver)
@@ -96,7 +99,7 @@ elif os.name == "nt":
     def find_cl_path():
         import glob
         for edition in ["Enterprise", "Professional", "BuildTools", "Community"]:
-            paths = sorted(glob.glob(r"C:\\Program Files (x86)\\Microsoft Visual Studio\\*\\%s\\VC\\Tools\\MSVC\\*\\bin\\Hostx64\\x64" % edition), reverse=True)
+            paths = sorted(glob.glob(r"C:\\Program Files*\\Microsoft Visual Studio\\*\\%s\\VC\\Tools\\MSVC\\*\\bin\\Hostx64\\x64" % edition), reverse=True)
             if paths:
                 return paths[0]
 
@@ -144,7 +147,7 @@ setup(
         'build_ext': BuildExtension,
     },
     install_requires=[
-        'ninja',
+        # 'ninja',
         'trimesh',
         'opencv-python',
         'torch',
