@@ -23,9 +23,11 @@
 // }
 // #endif //NGP_OPTIX
 
+#include <array>
 #include <stack>
 #include <iostream>
 #include <cstdio>
+#include <algorithm>
 
 using namespace Eigen;
 using namespace raytracing;
@@ -256,7 +258,7 @@ __host__ __device__ void sorting_network(T values[N]) {
 template <uint32_t BRANCHING_FACTOR>
 class TriangleBvhWithBranchingFactor : public TriangleBvh {
 public:
-    __host__ __device__ static std::pair<int, float> ray_intersect(Ref<const Vector3f> ro, Ref<const Vector3f> rd, const TriangleBvhNode* __restrict__ bvhnodes, const Triangle* __restrict__ triangles) {
+    __host__ __device__ static std::pair<int, float> ray_intersect(const Vector3f& ro, const Vector3f& rd, const TriangleBvhNode* __restrict__ bvhnodes, const Triangle* __restrict__ triangles) {
         FixedIntStack query_stack;
         query_stack.push(0);
 

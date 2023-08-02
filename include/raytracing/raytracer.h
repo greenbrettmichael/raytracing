@@ -22,6 +22,6 @@ public:
 };
 
 // function to create an implementation of raytracer
-RayTracer* create_raytracer(Ref<const Verts> vertices, Ref<const Trigs> triangles);
+RayTracer* create_raytracer(const Verts& vertices, const Trigs& triangles);
     
 } // namespace raytracing

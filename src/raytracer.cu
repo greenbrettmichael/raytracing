@@ -18,7 +18,7 @@ class RayTracerImpl : public RayTracer {
 public:
 
     // accept numpy array (cpu) to init 
-    RayTracerImpl(Ref<const Verts> vertices, Ref<const Trigs> triangles) : RayTracer() {
+    RayTracerImpl(const Verts& vertices, const Trigs& triangles) : RayTracer() {
 
         const size_t n_vertices = vertices.rows();
         const size_t n_triangles = triangles.rows();
@@ -58,7 +58,7 @@ public:
     std::shared_ptr<TriangleBvh> triangle_bvh;
 };
     
-RayTracer* create_raytracer(Ref<const Verts> vertices, Ref<const Trigs> triangles) {
+RayTracer* create_raytracer(const Verts& vertices, const Trigs& triangles) {
     return new RayTracerImpl{vertices, triangles};
 }
 

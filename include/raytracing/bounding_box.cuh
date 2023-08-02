@@ -148,7 +148,7 @@ struct BoundingBox {
         return true;
     }
 
-    __host__ __device__ Eigen::Vector2f ray_intersect(Eigen::Ref<const Eigen::Vector3f> pos, Eigen::Ref<const Eigen::Vector3f> dir) const {
+    __host__ __device__ Eigen::Vector2f ray_intersect(const Eigen::Vector3f& pos, const Eigen::Vector3f& dir) const {
         float tmin = (min.x() - pos.x()) / dir.x();
         float tmax = (max.x() - pos.x()) / dir.x();
 
