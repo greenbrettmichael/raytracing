@@ -17,6 +17,7 @@ def find_eigen(min_ver=(3, 3, 0)):
         'C:/Program Files/eigen3',
         'C:/Program Files (x86)/eigen3',
         os.path.join(CONDA_PREFIX, 'Library/include/eigen3'),
+        os.path.join(CONDA_PREFIX, 'include/eigen3')
     ]
     WORLD_VER_STR = "#define EIGEN_WORLD_VERSION"
     MAJOR_VER_STR = "#define EIGEN_MAJOR_VERSION"
